@@ -1,0 +1,75 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="BibliotekaGradBeograd" Class="BibliotekaGradBeogradDBDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=BibliotekaGradBeograd;Integrated Security=True;Trust Server Certificate=True" SettingsObjectName="BibliotekaProjekat2.Properties.Settings" SettingsPropertyName="BibliotekaGradBeogradConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="Administracija.Clanovi" Member="Clanovis">
+    <Type Name="Clanovi">
+      <Column Name="ClanID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Ime" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Prezime" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Email" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="BrojTelefona" Type="System.String" DbType="NVarChar(20)" CanBeNull="true" />
+      <Column Name="Adresa" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Association Name="Clanovi_Pozajmice" Member="Pozajmices" ThisKey="ClanID" OtherKey="ClanID" Type="Pozajmice" />
+    </Type>
+  </Table>
+  <Table Name="Administracija.Pozajmice" Member="Pozajmices">
+    <Type Name="Pozajmice">
+      <Column Name="PozajmicaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="ClanID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="KnjigaID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="RadnikID" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="DatumPozajmice" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DatumIstekaPozajmice" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="DatumVracanja" Type="System.DateTime" DbType="DateTime" CanBeNull="true" />
+      <Association Name="Clanovi_Pozajmice" Member="Clanovi" ThisKey="ClanID" OtherKey="ClanID" Type="Clanovi" IsForeignKey="true" />
+      <Association Name="Radnici_Pozajmice" Member="Radnici" ThisKey="RadnikID" OtherKey="RadnikID" Type="Radnici" IsForeignKey="true" />
+      <Association Name="Knjige_Pozajmice" Member="Knjige" ThisKey="KnjigaID" OtherKey="KnjigaID" Type="Knjige" IsForeignKey="true" />
+    </Type>
+  </Table>
+  <Table Name="Administracija.Radnici" Member="Radnicis">
+    <Type Name="Radnici">
+      <Column Name="RadnikID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Ime" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Prezime" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Column Name="Pozicija" Type="System.String" DbType="NVarChar(50)" CanBeNull="true" />
+      <Association Name="Radnici_Pozajmice" Member="Pozajmices" ThisKey="RadnikID" OtherKey="RadnikID" Type="Pozajmice" />
+    </Type>
+  </Table>
+  <Table Name="Biblioteka.Knjige" Member="Knjiges">
+    <Type Name="Knjige">
+      <Column Name="KnjigaID" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+      <Column Name="Naziv" Type="System.String" DbType="NVarChar(255)" CanBeNull="true" />
+      <Column Name="Autor" Type="System.String" DbType="NVarChar(100)" CanBeNull="true" />
+      <Column Name="GodinaIzdavanja" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Column Name="DostupneKopije" Type="System.Int32" DbType="Int" CanBeNull="true" />
+      <Association Name="Knjige_Pozajmice" Member="Pozajmices" ThisKey="KnjigaID" OtherKey="KnjigaID" Type="Pozajmice" />
+    </Type>
+  </Table>
+  <Function Name="dbo.InsertPozajmica" Method="InsertPozajmica">
+    <Parameter Name="ClanID" Parameter="clanID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="KnjigaID" Parameter="knjigaID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RadnikID" Parameter="radnikID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DatumPozajmice" Parameter="datumPozajmice" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="DatumIstekaPozajmice" Parameter="datumIstekaPozajmice" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="DatumVracanja" Parameter="datumVracanja" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdateDatumPozajmica" Method="UpdateDatumPozajmica">
+    <Parameter Name="PozajmicaID" Parameter="pozajmicaID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DatumVracanja" Parameter="datumVracanja" Type="System.DateTime" DbType="Date" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.UpdatePozajmica" Method="UpdatePozajmica">
+    <Parameter Name="PozajmicaID" Parameter="pozajmicaID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="KnjigaID" Parameter="knjigaID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="RadnikID" Parameter="radnikID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="ClanID" Parameter="clanID" Type="System.Int32" DbType="Int" />
+    <Parameter Name="DatumPozajmice" Parameter="datumPozajmice" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="DatumIstekaPozajmice" Parameter="datumIstekaPozajmice" Type="System.DateTime" DbType="DateTime" />
+    <Parameter Name="DatumVracanja" Parameter="datumVracanja" Type="System.DateTime" DbType="DateTime" />
+    <Return Type="System.Int32" />
+  </Function>
+  <Function Name="dbo.DeletePozajmica" Method="DeletePozajmica">
+    <Parameter Name="PozajmicaID" Parameter="pozajmicaID" Type="System.Int32" DbType="Int" />
+    <Return Type="System.Int32" />
+  </Function>
+</Database>
