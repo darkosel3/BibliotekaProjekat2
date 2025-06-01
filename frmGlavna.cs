@@ -28,5 +28,10 @@ namespace BibliotekaProjekat2
             frmMasterDetalji frmMasterDetalji = new frmMasterDetalji();
             frmMasterDetalji.ShowDialog();  
         }
+
+        private void frmGlavna_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
